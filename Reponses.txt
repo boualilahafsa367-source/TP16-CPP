@@ -1,0 +1,57 @@
+## Réponses aux questions théoriques
+
+### Exercice 1 : Implémentation du patron Singleton
+
+**Question 1 : Pourquoi le constructeur doit-il être privé ?**
+
+-> Le constructeur doit être privé afin d'empêcher la création directe de plusieurs objets depuis l'extérieur de la classe. 
+Ainsi, l'accès à l'objet se fait uniquement à travers la méthode statique `getInstance()`, qui garantit l'utilisation d'une seule instance.
+
+**Question 2 : Quelles sont les limites de ce patron dans les environnements multithreadés ?**
+
+-> Dans un environnement multithreadé, plusieurs threads peuvent accéder simultanément au Singleton.
+En C++11 et dans les versions suivantes, l'initialisation d'une variable locale `static` est thread-safe.
+Cependant, les modifications simultanées des attributs de l'objet ne sont pas automatiquement protégées.
+L'utilisation d'un mécanisme de synchronisation comme `std::mutex` peut donc être nécessaire.
+
+----------------------------------------------------------------------------------------------------------
+
+### Exercice 2 : Utilisation du patron Fabrique (Factory Method)
+
+Question 1 : Quelle est l'utilité du pattern Factory dans un contexte d'extension future ?
+
+-> Le patron Factory permet de séparer la création des objets de leur utilisation.
+Il facilite l'ajout de nouvelles classes concrètes sans obliger le programme client à connaître les détails de leur construction.
+Par exemple, si nous souhaitons ajouter une classe Rectangle, nous pouvons étendre le mécanisme de création pour prendre en charge cette nouvelle forme. Ce patron améliore ainsi la modularité, la réutilisation et la maintenance du code.
+
+Question 2 : Comment rendre le système plus modulaire avec une classe abstraite FabriqueAbstraite ?
+
+-> Nous pouvons créer une classe abstraite FabriqueAbstraite qui déclare une méthode virtuelle pure creerForme().
+Ensuite, différentes fabriques concrètes héritent de cette classe et redéfinissent cette méthode pour créer les formes souhaitées.
+Le programme principal utilise alors l'interface abstraite plutôt que les fabriques concrètes.
+Cela facilite le remplacement et l'ajout de nouvelles fabriques sans modifier le code client.
+
+-----------------------------------------------------------------------------------------------------------
+
+### Exercice 3 : Application du patron Observateur (Observer)
+
+Question 1 : Comment éviter une forte dépendance entre le sujet et les observateurs ?
+
+-> Pour éviter une forte dépendance, le sujet doit communiquer avec une interface abstraite Observateur au lieu de dépendre directement des classes concrètes. Ainsi, la station météo ne connaît pas les détails des différents affichages. On peut ajouter ou retirer des observateurs sans modifier la classe StationMeteo. Cette organisation respecte le principe de faible couplage et facilite l'évolution du programme.
+
+Question 2 : Quelle alternative moderne offre la bibliothèque standard pour cela ?
+
+-> La bibliothèque standard C++ propose std::function, qui permet de représenter des fonctions de rappel (callbacks). On peut l'utiliser pour enregistrer des traitements à exécuter lorsqu'une donnée change. Associée à des mécanismes d'enregistrement et de notification, cette approche permet de construire un système d'événements plus souple, sans imposer systématiquement une hiérarchie de classes d'observateurs.
+
+--------------------------------------------------------------------------------------------------------------
+
+### Exercice 4 : Mise en œuvre du patron Stratégie (Strategy)
+
+Question 1 : En quoi ce modèle améliore-t-il la maintenabilité du code ?
+
+-> Le patron Strategy sépare les différents algorithmes dans des classes indépendantes. Chaque stratégie peut être modifiée, remplacée ou complétée sans changer le code principal qui l'utilise. Cela réduit les dépendances entre les classes, facilite les tests et permet d'ajouter de nouvelles méthodes de tri sans modifier les stratégies déjà existantes.
+
+Question 2 : Quelle différence avec le pattern Template Method ?
+
+-> Le patron Strategy permet de changer complètement d'algorithme pendant l'exécution en utilisant différentes classes de stratégies.
+Le patron Template Method définit plutôt les grandes étapes d'un algorithme dans une classe de base, puis laisse les classes dérivées redéfinir certaines étapes. La structure générale de l'algorithme reste donc fixée.
